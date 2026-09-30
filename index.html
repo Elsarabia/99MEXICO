@@ -934,36 +934,67 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
    INICIO: VIDEO DE FONDO, CENTRADO Y LOS DOS NUEVES
    ========================================================== */
 
-.hero{text-align:center;isolation:isolate}
+.hero{text-align:center;isolation:isolate;min-height:88svh}
 .hero-video{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;
-  opacity:0;transition:opacity 1.4s ease;
-  filter:grayscale(.55) contrast(1.06) brightness(.72);
+  object-position:50% 50%;
+  opacity:0;transition:opacity 1.2s ease;
+  filter:grayscale(.28) contrast(1.04) brightness(.95) saturate(.9);
 }
-.hero-video.listo{opacity:.55}
+.hero-video.listo{opacity:.95}
+
+/* velo suave: solo lo justo para leer, sin apagar el video */
 .hero::after{
   content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
   background:
-    radial-gradient(ellipse 78% 62% at 50% 46%, rgba(10,9,8,.62), rgba(10,9,8,.9) 72%),
-    linear-gradient(180deg, rgba(10,9,8,.92), rgba(10,9,8,.38) 30%, rgba(10,9,8,.55) 62%, var(--negro));
+    linear-gradient(180deg, rgba(10,9,8,.82) 0%, rgba(10,9,8,.14) 22%,
+                    rgba(10,9,8,.10) 48%, rgba(10,9,8,.72) 84%, var(--negro) 100%);
 }
-.hero-brillo{z-index:-1;opacity:.5}
-.hero-marca-agua{z-index:-1;opacity:.035}
+/* halo oscuro detrás del bloque de texto, para el contraste */
+.hero-in::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(880px,116%);height:118%;
+  background:radial-gradient(ellipse 60% 52% at 50% 50%, rgba(8,7,7,.78), rgba(8,7,7,.42) 58%, transparent 78%);
+}
+.hero-brillo{z-index:-1;opacity:.26}
+.hero-piso{z-index:-1}
 
 /* todo el contenido centrado */
-.hero-in{margin-inline:auto;max-width:700px;display:flex;flex-direction:column;align-items:center}
-.hero-sello{margin:0 0 14px;width:clamp(78px,11vw,102px);height:auto}
-.hero .eyebrow{justify-content:center}
+.hero-in{position:relative;margin-inline:auto;max-width:700px;display:flex;flex-direction:column;align-items:center}
+.hero .eyebrow{
+  justify-content:center;display:inline-flex;align-items:center;
+  padding:7px 16px;border-radius:100px;
+  background:rgba(10,9,8,.6);border:1px solid rgba(196,22,28,.28);
+  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  align-self:center;
+}
 .hero .eyebrow::after{display:none}
-.hero-texto{margin-inline:auto;text-align:center;max-width:540px}
+.hero-texto{margin-inline:auto;text-align:center;max-width:560px;color:#d6cfc8}
+.hero-texto b{color:var(--ceniza);font-weight:700}
 .hero-botones{justify-content:center}
 .hero-nota{text-align:center}
 .cue{left:50%}
 
+/* el texto tiene que ganarle al video */
+.hero h1,.hero .lema,.hero-texto,.hero .eyebrow,.hero-nota{
+  text-shadow:0 2px 18px rgba(0,0,0,.92), 0 1px 4px rgba(0,0,0,.8);
+}
+
 /* título en bloques centrados */
 .hero h1{display:flex;flex-direction:column;align-items:center;gap:2px}
 .h1-linea{display:block;line-height:.92}
-.hero h1 .rojo{color:var(--rojo);text-shadow:0 0 34px rgba(196,22,28,.6)}
+.hero h1 .rojo{color:var(--rojo);text-shadow:0 0 34px rgba(196,22,28,.65),0 2px 16px rgba(0,0,0,.9)}
+
+/* ---- en computadora el video es vertical: se encuadra al torso ---- */
+@media(min-width:900px){
+  .hero{min-height:92svh}
+  .hero-video{object-position:50% 24%}
+  .hero-in{padding-block:14px}
+}
+@media(min-width:1500px){
+  .hero-video{object-position:50% 20%}
+}
 
 /* los dos nueves, como los del escudo */
 .nueves{
@@ -999,7 +1030,7 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 .marca .n9{font-style:italic;color:var(--ceniza);-webkit-text-stroke:1px #0A0908;paint-order:stroke fill}
 
 @media(max-width:640px){
-  .hero-video.listo{opacity:.42}
+  .hero-video.listo{opacity:.8}
   .nueves{gap:12px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -1080,12 +1111,10 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   <video id="video-hero" class="hero-video" data-src="dojo.mp4" poster="dojo-poster.jpg"
          muted loop playsinline preload="none" aria-hidden="true"></video>
   <div class="hero-brillo"></div>
-  <img class="hero-marca-agua" src="logo.png" alt="" aria-hidden="true">
   <canvas id="cenizas" aria-hidden="true"></canvas>
   <div class="hero-piso"></div>
 
   <div class="envoltura hero-in">
-    <img class="hero-sello" src="logo.png" alt="Logo de 99 Jiu-Jitsu México">
     <p class="eyebrow">Tijuana, B.C. · Est. 2024</p>
     <h1>
       <span class="nueves" aria-label="99"><b>9</b><b>9</b></span>
@@ -1094,8 +1123,8 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
     </h1>
     <p class="lema">Mente · Disciplina · Honor</p>
     <p class="hero-texto">
-      Jiu-jitsu brasileño gi y no-gi, striking y clases para niños. Linaje Eduardo Telles.
-      No necesitas condición ni experiencia: necesitas presentarte.
+      Clases de jiu-jitsu brasileño gi y no-gi, y clases de striking: box, kickboxing y muay thai.
+      <b>Abierto a todo público</b> — niños, adultos, hombres y mujeres.
     </p>
     <div class="hero-botones">
       <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20mi%20semana%20de%20entrenamiento%20gratis" target="_blank" rel="noopener">Quiero mi semana gratis</a>
