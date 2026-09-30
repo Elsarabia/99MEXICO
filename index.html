@@ -12,6 +12,7 @@
 <link rel="shortcut icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" as="image" href="logo.png">
+<link rel="preload" as="image" href="dojo-poster.jpg" fetchpriority="high">
 
 <!-- 99: imagen que se ve al compartir el link por WhatsApp.
      Sube un archivo og.jpg de 1200x630 px al repositorio y esto empieza a funcionar solo. -->
@@ -938,10 +939,18 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 .hero-video{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;
   object-position:50% 50%;
-  opacity:0;transition:opacity 1.2s ease;
+  /* el atributo poster ya se ve aquí: nunca hay hueco negro */
+  opacity:.95;
   filter:grayscale(.28) contrast(1.04) brightness(.95) saturate(.9);
 }
-.hero-video.listo{opacity:.95}
+/* respaldo por si el navegador no pinta el poster del reproductor */
+.hero-respaldo{
+  position:absolute;inset:0;z-index:-4;pointer-events:none;
+  background:url("dojo-poster.jpg") center 24%/cover no-repeat;
+  opacity:.95;filter:grayscale(.28) contrast(1.04) brightness(.95) saturate(.9);
+  transition:opacity .8s ease;
+}
+.hero-respaldo.fuera{opacity:0}
 
 /* velo suave: solo lo justo para leer, sin apagar el video */
 .hero::after{
@@ -1030,7 +1039,8 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 .marca .n9{font-style:italic;color:var(--ceniza);-webkit-text-stroke:1px #0A0908;paint-order:stroke fill}
 
 @media(max-width:640px){
-  .hero-video.listo{opacity:.8}
+  .hero-video{opacity:.8}
+  .hero-respaldo{opacity:.8;background-position:center 50%}
   .nueves{gap:12px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -1108,8 +1118,9 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 <!-- ============ HERO ============ -->
 <section class="hero" id="inicio">
   <!-- 99: VIDEO DE FONDO. Carga después del logo y nunca con ahorro de datos. -->
-  <video id="video-hero" class="hero-video" data-src="dojo.mp4" poster="dojo-poster.jpg"
-         muted loop playsinline preload="none" aria-hidden="true"></video>
+  <div class="hero-respaldo" id="hero-respaldo" aria-hidden="true"></div>
+  <video id="video-hero" class="hero-video" poster="dojo-poster.jpg"
+         muted loop playsinline preload="none" data-src="dojo.mp4" aria-hidden="true"></video>
   <div class="hero-brillo"></div>
   <canvas id="cenizas" aria-hidden="true"></canvas>
   <div class="hero-piso"></div>
@@ -1867,74 +1878,38 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 
   /* ---------- video de fondo del inicio ---------- */
   var vid = document.getElementById('video-hero');
+  var respaldo = document.getElementById('hero-respaldo');
   if (vid && !reducido) {
     var con = navigator.connection || {};
     var ahorro = con.saveData || /(^|[^4])2g/.test(con.effectiveType || '');
-    if (!ahorro) {
-      // se carga después de que la página terminó, para no competir con el logo
-      var prender = function(){
-        vid.src = vid.dataset.src;
-        vid.addEventListener('loadeddata', function(){
-          vid.classList.add('listo');
-          var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
-        }, {once:true});
+    if (ahorro) {
+      // con ahorro de datos se queda el fotograma y no se descarga el video
+      vid.remove();
+    } else {
+      // empieza a bajar de inmediato: la pantalla de carga tapa el tiempo
+      vid.src = vid.dataset.src;
+      vid.load();
+
+      vid.addEventListener('canplay', function(){
+        var pr = vid.play();
+        if (pr && pr.catch) pr.catch(function(){});
+        if (respaldo) setTimeout(function(){ respaldo.classList.add('fuera'); }, 120);
+      }, {once:true});
+
+      // si el video falla, el fotograma se queda y nadie se entera
+      vid.addEventListener('error', function(){ vid.remove(); }, {once:true});
+
+      // no gasta batería fuera de pantalla ni en segundo plano
+      var tocar = function(reproducir){
+        if (!vid.isConnected) return;
+        if (reproducir) { var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); }
+        else vid.pause();
       };
-      if (document.readyState === 'complete') setTimeout(prender, 300);
-      else window.addEventListener('load', function(){ setTimeout(prender, 300); });
-
-      // se pausa fuera de pantalla y con la pestaña en segundo plano
       if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function(es){
-          if (!vid.src) return;
-          if (es[0].isIntersecting) { var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); }
-          else vid.pause();
-        }, {threshold:.05}).observe(vid);
+        new IntersectionObserver(function(es){ tocar(es[0].isIntersecting); }, {threshold:.05}).observe(vid);
       }
-      document.addEventListener('visibilitychange', function(){
-        if (!vid.src) return;
-        if (document.hidden) vid.pause();
-        else { var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); }
-      });
+      document.addEventListener('visibilitychange', function(){ tocar(!document.hidden); });
     }
-  }
-
-  /* ---------- si una imagen todavía no existe, se oculta en vez de verse rota ---------- */
-  document.querySelectorAll('img').forEach(function(im){
-    im.addEventListener('error', function(){ im.style.display = 'none'; }, {once:true});
-  });
-
-  /* ---------- carrusel de la galería ---------- */
-  var pista = document.getElementById('pista'), carrusel = document.getElementById('carrusel');
-  if (pista && carrusel) {
-    // se duplica la tira para que el ciclo no tenga corte
-    var copia = pista.cloneNode(true);
-    copia.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); });
-    copia.setAttribute('aria-hidden','true');
-    while (copia.firstChild) pista.appendChild(copia.firstChild);
-
-    // en celular no hay cursor: al tocar se detiene unos segundos
-    var reloj;
-    carrusel.addEventListener('pointerdown', function(){
-      carrusel.classList.add('pausa');
-      clearTimeout(reloj);
-      reloj = setTimeout(function(){ carrusel.classList.remove('pausa'); }, 3500);
-    });
-
-    // fuera de pantalla no gasta batería
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function(es){
-        pista.style.animationPlayState = es[0].isIntersecting ? 'running' : 'paused';
-      }, {threshold:0}).observe(carrusel);
-    }
-  }
-
-  /* ---------- desplegar el resto de las preguntas ---------- */
-  var verMas = document.getElementById('ver-preguntas'), faq = document.getElementById('faq');
-  if (verMas && faq) {
-    verMas.addEventListener('click', function(){
-      faq.classList.remove('recortado');
-      verMas.style.display = 'none';
-    });
   }
 
   /* ---------- pantalla de carga ---------- */
