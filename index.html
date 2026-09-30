@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>99 Jiu-Jitsu México — Tijuana | Clase de prueba gratis</title>
-<meta name="description" content="Academia de jiu-jitsu brasileño en Tijuana. Gi y No-Gi, striking y clases para niños. Linaje Eduardo Telles. Primera clase gratis.">
+<title>99 Jiu-Jitsu México — Tijuana | Semana de entrenamiento gratis</title>
+<meta name="description" content="Academia de jiu-jitsu brasileño en Tijuana. Gi y No-Gi, striking y clases para niños. Linaje Eduardo Telles. Tu primera semana de entrenamiento va gratis.">
 <meta property="og:title" content="99 Jiu-Jitsu México">
-<meta property="og:description" content="Jiu-jitsu brasileño en Tijuana. Mente · Disciplina · Honor. Primera clase gratis.">
+<meta property="og:description" content="Jiu-jitsu brasileño en Tijuana. Mente · Disciplina · Honor. Una semana de entrenamiento gratis.">
 <meta name="theme-color" content="#0A0908">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 <link rel="shortcut icon" type="image/png" href="favicon.png">
@@ -182,7 +182,7 @@ p{margin:0 0 1em}
 }
 @keyframes flota{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .hero h1{
-  font-size:clamp(3rem,11vw,6.6rem);text-transform:uppercase;
+  font-size:clamp(2.6rem,9.5vw,5rem);text-transform:uppercase;
   text-shadow:0 0 70px rgba(196,22,28,.35);
 }
 .hero h1 .rojo{
@@ -814,7 +814,7 @@ input,select,textarea,button{font-size:16px} /* evita el zoom automático de iOS
 .seccion > .envoltura{position:relative;z-index:1}
 @media(max-width:640px){.tentaculo{opacity:.06}}
 
-/* sello girado del logo en la tarjeta de primera clase */
+/* sello girado del logo en la tarjeta del primer día */
 .prueba{overflow:hidden;position:relative}
 .prueba .sello-fondo{
   position:absolute;right:-52px;bottom:-52px;width:230px;opacity:.09;
@@ -929,6 +929,82 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   .hero-in > *,.carga-in img,.carga-barra i,.foto::after,.faq details p{animation:none}
   #cargando{animation:none;opacity:0;visibility:hidden}
 }
+
+/* ==========================================================
+   INICIO: VIDEO DE FONDO, CENTRADO Y LOS DOS NUEVES
+   ========================================================== */
+
+.hero{text-align:center;isolation:isolate}
+.hero-video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;
+  opacity:0;transition:opacity 1.4s ease;
+  filter:grayscale(.55) contrast(1.06) brightness(.72);
+}
+.hero-video.listo{opacity:.55}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(ellipse 78% 62% at 50% 46%, rgba(10,9,8,.62), rgba(10,9,8,.9) 72%),
+    linear-gradient(180deg, rgba(10,9,8,.92), rgba(10,9,8,.38) 30%, rgba(10,9,8,.55) 62%, var(--negro));
+}
+.hero-brillo{z-index:-1;opacity:.5}
+.hero-marca-agua{z-index:-1;opacity:.035}
+
+/* todo el contenido centrado */
+.hero-in{margin-inline:auto;max-width:700px;display:flex;flex-direction:column;align-items:center}
+.hero-sello{margin:0 0 14px;width:clamp(78px,11vw,102px);height:auto}
+.hero .eyebrow{justify-content:center}
+.hero .eyebrow::after{display:none}
+.hero-texto{margin-inline:auto;text-align:center;max-width:540px}
+.hero-botones{justify-content:center}
+.hero-nota{text-align:center}
+.cue{left:50%}
+
+/* título en bloques centrados */
+.hero h1{display:flex;flex-direction:column;align-items:center;gap:2px}
+.h1-linea{display:block;line-height:.92}
+.hero h1 .rojo{color:var(--rojo);text-shadow:0 0 34px rgba(196,22,28,.6)}
+
+/* los dos nueves, como los del escudo */
+.nueves{
+  display:inline-flex;align-items:center;gap:clamp(26px,8vw,54px);
+  margin-bottom:clamp(2px,1vw,10px);
+}
+.nueves b{
+  position:relative;display:inline-block;
+  font-family:var(--display);font-weight:900;font-style:italic;
+  font-size:clamp(3.8rem,15vw,6.4rem);line-height:.8;
+  color:var(--ceniza);
+  -webkit-text-stroke:3px #0A0908;
+  paint-order:stroke fill;
+  text-shadow:0 12px 34px rgba(0,0,0,.85);
+}
+/* la cuña roja al costado de cada nueve, como en el escudo */
+.nueves b::before{
+  content:"";position:absolute;z-index:-1;top:30%;width:.2em;height:.26em;
+  background:linear-gradient(135deg,var(--rojo),var(--rojo-hondo));
+  box-shadow:0 0 22px rgba(196,22,28,.65);
+}
+.nueves b:first-child::before{
+  right:86%;
+  clip-path:polygon(100% 0,100% 100%,0 70%,0 30%);
+}
+.nueves b:last-child::before{
+  left:86%;
+  clip-path:polygon(0 0,0 100%,100% 70%,100% 30%);
+}
+
+/* el "99" del menú y del pie, con el mismo carácter */
+.marca{letter-spacing:.03em}
+.marca .n9{font-style:italic;color:var(--ceniza);-webkit-text-stroke:1px #0A0908;paint-order:stroke fill}
+
+@media(max-width:640px){
+  .hero-video.listo{opacity:.42}
+  .nueves{gap:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-video{display:none}
+}
 </style>
 </head>
 <body>
@@ -965,7 +1041,7 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   <div class="envoltura nav-in">
     <a href="#inicio" class="marca">
       <img class="marca-logo" src="logo.png" alt="Logo de 99 Jiu-Jitsu México">
-      99 Jiu-Jitsu
+      <span class="n9">99</span> Jiu-Jitsu
     </a>
     <nav class="nav-links">
       <a href="#horarios">Horarios</a>
@@ -977,8 +1053,8 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
     </nav>
     <div class="nav-acciones">
       <!-- 99: WhatsApp de la academia -->
-      <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20agendar%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">
-        Clase <span>de prueba</span>
+      <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20mi%20semana%20de%20entrenamiento%20gratis" target="_blank" rel="noopener">
+        Semana <span>gratis</span>
       </a>
       <button class="menu-btn" id="menu-btn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil">
         <span></span><span></span><span></span>
@@ -1000,6 +1076,9 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="inicio">
+  <!-- 99: VIDEO DE FONDO. Carga después del logo y nunca con ahorro de datos. -->
+  <video id="video-hero" class="hero-video" data-src="dojo.mp4" poster="dojo-poster.jpg"
+         muted loop playsinline preload="none" aria-hidden="true"></video>
   <div class="hero-brillo"></div>
   <img class="hero-marca-agua" src="logo.png" alt="" aria-hidden="true">
   <canvas id="cenizas" aria-hidden="true"></canvas>
@@ -1008,17 +1087,21 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   <div class="envoltura hero-in">
     <img class="hero-sello" src="logo.png" alt="Logo de 99 Jiu-Jitsu México">
     <p class="eyebrow">Tijuana, B.C. · Est. 2024</p>
-    <h1>99 Jiu-Jitsu<br><span class="rojo">México</span></h1>
+    <h1>
+      <span class="nueves" aria-label="99"><b>9</b><b>9</b></span>
+      <span class="h1-linea">Jiu-Jitsu</span>
+      <span class="h1-linea rojo">México</span>
+    </h1>
     <p class="lema">Mente · Disciplina · Honor</p>
     <p class="hero-texto">
       Jiu-jitsu brasileño gi y no-gi, striking y clases para niños. Linaje Eduardo Telles.
       No necesitas condición ni experiencia: necesitas presentarte.
     </p>
     <div class="hero-botones">
-      <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20agendar%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">Agendar clase de prueba</a>
-      <a class="btn btn-vidrio" href="#seminarios">Ver seminarios</a>
+      <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20mi%20semana%20de%20entrenamiento%20gratis" target="_blank" rel="noopener">Quiero mi semana gratis</a>
+      <a class="btn btn-vidrio" href="#horarios">Ver horarios</a>
     </div>
-    <p class="hero-nota">La primera clase es gratis · Martes a viernes</p>
+    <p class="hero-nota">Una semana de entrenamiento gratis · Martes a viernes</p>
   </div>
   <div class="cue" aria-hidden="true"><span>Conoce la academia</span></div>
 </section>
@@ -1232,18 +1315,13 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 
 <!-- ============ BANDA CON VIDEO ============ -->
 <section class="banda" id="banda">
-  <!-- 99: VIDEO DE FONDO.
-       Sube un archivo dojo.mp4 al repositorio (10-20 segundos, sin audio, máximo 3 MB,
-       1280x720 basta) y el video se carga solo cuando esta sección entra en pantalla.
-       En celular y en modo ahorro de datos no se descarga: se queda el degradado. -->
-  <video id="video-dojo" data-src="dojo.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
   <div class="capa"></div>
   <div class="envoltura banda-in reveal">
     <p class="eyebrow">Nuestro linaje</p>
     <h2>Venimos de<br>Eduardo Telles</h2>
     <p>La tortuga y el pulpo del escudo no son adorno: son el juego de tortuga de Telles,
        con el que aprendimos a defender antes que a atacar.</p>
-    <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20agendar%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">Agendar mi clase</a>
+    <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20mi%20semana%20de%20entrenamiento%20gratis" target="_blank" rel="noopener">Quiero mi semana gratis</a>
   </div>
 </section>
 
@@ -1259,7 +1337,7 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
         <h2>Planes y mensualidades</h2>
         <p>Te damos los planes en recepción, de martes a viernes de 18:00 a 21:00 hrs, o por
            WhatsApp a la hora que quieras. Hay mensualidad para adultos, para niños y clase suelta.
-           Y la primera clase es gratis, sin compromiso de inscribirte.</p>
+           Y tu primera semana de entrenamiento va gratis, sin compromiso de inscribirte.</p>
       </div>
       <a class="btn btn-rojo" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20informes%20de%20los%20planes%20y%20precios" target="_blank" rel="noopener">Pedir precios por WhatsApp</a>
     </div>
@@ -1380,7 +1458,7 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
       </details>
 
       <details class="vidrio reveal">
-        <summary>¿Qué llevo a mi primera clase?</summary>
+        <summary>¿Qué llevo el primer día?</summary>
         <p>Ropa deportiva sin cierres ni botones, sandalias para caminar fuera del tatami, agua y las uñas cortas. Si no tienes gi, te prestamos uno mientras decides.</p>
       </details>
 
@@ -1411,7 +1489,9 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 
       <details class="vidrio reveal">
         <summary>¿Puedo probar antes de inscribirme?</summary>
-        <p>Sí, la primera clase es gratis. Escríbenos por WhatsApp para apartarte el lugar y te decimos qué día te conviene llegar.</p>
+        <p>Sí, y no es una sola clase: te damos una semana completa de entrenamiento gratis.
+           Vienes los cuatro días, conoces a los profes y a los compañeros, y decides con
+           calma. Escríbenos por WhatsApp para apartarte el lugar.</p>
       </details>
     </div>
 
@@ -1419,15 +1499,16 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   </div>
 </section>
 
-<!-- ============ CLASE DE PRUEBA + UBICACIÓN ============ -->
+<!-- ============ PRIMER DÍA + UBICACIÓN ============ -->
 <section class="seccion seccion-alt" id="visitanos">
   <div class="envoltura">
     <div class="prueba vidrio reveal">
       <img class="sello-fondo" src="logo.png" alt="" aria-hidden="true" loading="lazy">
       <p class="eyebrow" style="justify-content:center">Antes de venir</p>
-      <h2>Tu primer día<br>con nosotros</h2>
-      <p>Llega 10 minutos antes con ropa deportiva. Si no tienes gi, te prestamos uno para empezar.</p>
-      <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20agendar%20mi%20clase%20de%20prueba%20gratis" target="_blank" rel="noopener">Agendar por WhatsApp</a>
+      <h2>Una semana completa<br>por nuestra cuenta</h2>
+      <p>Entrena los cuatro días sin pagar nada. Llega 10 minutos antes con ropa deportiva;
+         si no tienes gi, te prestamos uno.</p>
+      <a class="btn btn-rojo js-agenda" href="https://wa.me/16197816359?text=Hola%2C%20quiero%20mi%20semana%20de%20entrenamiento%20gratis" target="_blank" rel="noopener">Apartar mi semana gratis</a>
     </div>
 
     <div class="ubicacion">
@@ -1463,7 +1544,7 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
 <footer class="pie">
   <div class="envoltura pie-in">
     <div>
-      <div class="marca"><img class="marca-logo" src="logo.png" alt="Logo de 99 Jiu-Jitsu México"> 99 Jiu-Jitsu México</div>
+      <div class="marca"><img class="marca-logo" src="logo.png" alt="Logo de 99 Jiu-Jitsu México"> <span class="n9">99</span> Jiu-Jitsu México</div>
       <p>Mente · Disciplina · Honor</p>
       <p>C. Ninguno 105, Col. Morelos, Tijuana<br>Sobre Av. Juan de Dios Peza, junto al OXXO</p>
     </div>
@@ -1752,29 +1833,39 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   }
   document.addEventListener('click', function(e){
     var a = e.target.closest('.js-agenda');
-    if (a) avisar('¡Va, te esperamos!', 'Abrimos WhatsApp con tu mensaje listo. Solo dale enviar.');
+    if (a) avisar('¡Va, te esperamos!', 'Tu semana gratis empieza cuando tú digas. Abrimos WhatsApp con el mensaje listo.');
   });
 
-  /* ---------- video de fondo, solo cuando conviene ---------- */
-  var vid = document.getElementById('video-dojo');
-  if (vid && !reducido && window.innerWidth > 720) {
+  /* ---------- video de fondo del inicio ---------- */
+  var vid = document.getElementById('video-hero');
+  if (vid && !reducido) {
     var con = navigator.connection || {};
-    var ahorro = con.saveData || /2g/.test(con.effectiveType || '');
-    if (!ahorro && 'IntersectionObserver' in window) {
-      var ov = new IntersectionObserver(function(es){
-        es.forEach(function(e){
-          if (e.isIntersecting) {
-            if (!vid.src && vid.dataset.src) {
-              vid.src = vid.dataset.src;
-              vid.addEventListener('loadeddata', function(){ vid.classList.add('listo'); }, {once:true});
-            }
-            var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
-          } else if (!vid.paused) {
-            vid.pause();
-          }
-        });
-      }, {threshold:.15});
-      ov.observe(vid);
+    var ahorro = con.saveData || /(^|[^4])2g/.test(con.effectiveType || '');
+    if (!ahorro) {
+      // se carga después de que la página terminó, para no competir con el logo
+      var prender = function(){
+        vid.src = vid.dataset.src;
+        vid.addEventListener('loadeddata', function(){
+          vid.classList.add('listo');
+          var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){});
+        }, {once:true});
+      };
+      if (document.readyState === 'complete') setTimeout(prender, 300);
+      else window.addEventListener('load', function(){ setTimeout(prender, 300); });
+
+      // se pausa fuera de pantalla y con la pestaña en segundo plano
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function(es){
+          if (!vid.src) return;
+          if (es[0].isIntersecting) { var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); }
+          else vid.pause();
+        }, {threshold:.05}).observe(vid);
+      }
+      document.addEventListener('visibilitychange', function(){
+        if (!vid.src) return;
+        if (document.hidden) vid.pause();
+        else { var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); }
+      });
     }
   }
 
