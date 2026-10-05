@@ -13,6 +13,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" as="image" href="logo.png">
 <link rel="preload" as="image" href="dojo-poster.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="nueve-a.png" fetchpriority="high">
+<link rel="preload" as="image" href="nueve-b.png" fetchpriority="high">
 
 <!-- 99: imagen que se ve al compartir el link por WhatsApp.
      Sube un archivo og.jpg de 1200x630 px al repositorio y esto empieza a funcionar solo. -->
@@ -1005,33 +1007,14 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   .hero-video{object-position:50% 20%}
 }
 
-/* los dos nueves, como los del escudo */
+/* los dos nueves: el glifo del escudo, recortado del arte original */
 .nueves{
-  display:inline-flex;align-items:center;gap:clamp(26px,8vw,54px);
-  margin-bottom:clamp(2px,1vw,10px);
+  display:inline-flex;align-items:flex-end;gap:clamp(13px,3.6vw,26px);
+  margin-bottom:clamp(6px,1.4vw,14px);
 }
-.nueves b{
-  position:relative;display:inline-block;
-  font-family:var(--display);font-weight:900;font-style:italic;
-  font-size:clamp(3.8rem,15vw,6.4rem);line-height:.8;
-  color:var(--ceniza);
-  -webkit-text-stroke:3px #0A0908;
-  paint-order:stroke fill;
-  text-shadow:0 12px 34px rgba(0,0,0,.85);
-}
-/* la cuña roja al costado de cada nueve, como en el escudo */
-.nueves b::before{
-  content:"";position:absolute;z-index:-1;top:30%;width:.2em;height:.26em;
-  background:linear-gradient(135deg,var(--rojo),var(--rojo-hondo));
-  box-shadow:0 0 22px rgba(196,22,28,.65);
-}
-.nueves b:first-child::before{
-  right:86%;
-  clip-path:polygon(100% 0,100% 100%,0 70%,0 30%);
-}
-.nueves b:last-child::before{
-  left:86%;
-  clip-path:polygon(0 0,0 100%,100% 70%,100% 30%);
+.nueves img{
+  display:block;width:auto;height:clamp(96px,21vw,158px);
+  filter:drop-shadow(0 12px 30px rgba(0,0,0,.9));
 }
 
 /* el "99" del menú y del pie, con el mismo carácter */
@@ -1128,7 +1111,10 @@ body::after{mix-blend-mode:normal;opacity:.13;transform:translateZ(0)}
   <div class="envoltura hero-in">
     <p class="eyebrow">Tijuana, B.C. · Est. 2024</p>
     <h1>
-      <span class="nueves" aria-label="99"><b>9</b><b>9</b></span>
+      <span class="nueves" aria-label="99">
+        <img src="nueve-a.png" alt="" aria-hidden="true" width="185" height="460">
+        <img src="nueve-b.png" alt="" aria-hidden="true" width="181" height="460">
+      </span>
       <span class="h1-linea">Jiu-Jitsu</span>
       <span class="h1-linea rojo">México</span>
     </h1>
