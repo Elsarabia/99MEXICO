@@ -1,7 +1,7 @@
 # 99 Jiu-Jitsu México
 
 Sitio web de la academia. Tijuana, B.C.
-En vivo: https://tulipdigitalevent.github.io/99-jiu-jitsu/
+En vivo: 
 
 ## Archivos
 
